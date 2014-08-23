@@ -26,6 +26,10 @@
             android:name=".EditItemActivity"
             android:label="@string/title_activity_edit_item" >
         </activity>
+        <provider
+      		android:name=".contentprovider.SimpleTodoContentProvider"
+      		android:authorities="com.bootcamp.apps.simpletodo.contentprovider" >
+   		</provider>
     </application>
 
 </manifest>

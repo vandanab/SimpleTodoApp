@@ -1,7 +1,12 @@
 package com.bootcamp.apps.simpletodo;
 
+import com.bootcamp.apps.simpletodo.contentprovider.SimpleTodoContentProvider;
+import com.bootcamp.apps.simpletodo.database.SimpleTodoTable;
+
 import android.app.Activity;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -11,7 +16,7 @@ import android.widget.EditText;
 public class EditItemActivity extends Activity {
 
 	private EditText etEditItem;
-	private int itemIndex;
+	private int itemId;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -19,8 +24,9 @@ public class EditItemActivity extends Activity {
 		setContentView(R.layout.activity_edit_item);
 		etEditItem = (EditText) findViewById(R.id.etEditItem);
 		etEditItem.setText(getIntent().getStringExtra("itemText"));
-		etEditItem.setSelection(etEditItem.getText().length()); // set cursor at the end of the text.
-		itemIndex = getIntent().getIntExtra("itemIndex", -1); // for sending back to the TodoActivity.
+		// set cursor at the end of the text.
+		etEditItem.setSelection(etEditItem.getText().length());
+		itemId = getIntent().getIntExtra("itemId", -1);
 	}
 
 	@Override
@@ -42,10 +48,18 @@ public class EditItemActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	/**
+	 * On click listener to save the change for the item in the todo list,
+	 * 		when the "Save" button is clicked.
+	 * @param v view object passed to the listener.
+	 */
 	public void saveEdit(View v) {
+		Uri uri = Uri.parse(SimpleTodoContentProvider.CONTENT_URI + "/" + itemId);
+		ContentValues values = new ContentValues();
+		values.put(SimpleTodoTable.COLUMN_ITEM, etEditItem.getText().toString());
+		getContentResolver().update(uri, values, null, null);
+
 		Intent result = new Intent();
-		result.putExtra("itemIndex", itemIndex);
-		result.putExtra("editedText", etEditItem.getText().toString());
 		setResult(RESULT_OK, result);
 		finish();
 	}

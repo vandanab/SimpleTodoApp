@@ -7,5 +7,12 @@
         android:orderInCategory="100"
         android:showAsAction="never"
         android:title="@string/action_settings"/>
+    <item
+        android:id="@+id/avClear"
+        android:visible="true"
+        android:enabled="true"
+        android:showAsAction="always"
+        android:title="@string/delete_all_item"
+        android:icon="@drawable/ic_action_discard" />
 
 </menu>

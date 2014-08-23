@@ -9,5 +9,6 @@
     <string name="title_activity_edit_item">Edit Item</string>
     <string name="edit_item_label">Edit Item Below:</string>
     <string name="save_label">Save</string>
+    <string name="delete_all_item">Delete all</string>
 
 </resources>

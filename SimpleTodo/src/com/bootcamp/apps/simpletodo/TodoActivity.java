@@ -1,5 +1,6 @@
 package com.bootcamp.apps.simpletodo;
 
+import com.bootcamp.apps.simpletodo.adapter.SimpleTodoCursorAdapter;
 import com.bootcamp.apps.simpletodo.contentprovider.SimpleTodoContentProvider;
 import com.bootcamp.apps.simpletodo.database.SimpleTodoTable;
 
@@ -12,7 +13,7 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.widget.SimpleCursorAdapter;
+//import android.support.v4.widget.SimpleCursorAdapter;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,8 +29,8 @@ import android.widget.ListView;
 public class TodoActivity extends Activity implements 
 		LoaderManager.LoaderCallbacks<Cursor> {
 
-	private static final int REQUEST_CODE = 3;
-	private SimpleCursorAdapter itemsCursorAdapter;
+	//private SimpleCursorAdapter itemsCursorAdapter;
+	private SimpleTodoCursorAdapter itemsCursorAdapter;
 	private ListView lvItems;
 	private EditText etNewItem;
 
@@ -75,7 +76,9 @@ public class TodoActivity extends Activity implements
 	 */
 	@Override
 	public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-		String[] projection = { SimpleTodoTable.COLUMN_ID, SimpleTodoTable.COLUMN_ITEM };
+		//String[] projection = { SimpleTodoTable.COLUMN_ID, SimpleTodoTable.COLUMN_ITEM };
+		String[] projection = { SimpleTodoTable.COLUMN_ID, SimpleTodoTable.COLUMN_STATUS,
+				SimpleTodoTable.COLUMN_ITEM };
 	    CursorLoader cursorLoader = new CursorLoader(this,
 	        SimpleTodoContentProvider.CONTENT_URI, projection, null, null, null);
 	    return cursorLoader;
@@ -102,7 +105,7 @@ public class TodoActivity extends Activity implements
 	@Override
 	public void onActivityResult(int requestCode, int resultCode,
 			Intent data) {
-		if (requestCode == REQUEST_CODE && resultCode == RESULT_OK) {
+		if (requestCode == SimpleTodoCursorAdapter.REQUEST_CODE && resultCode == RESULT_OK) {
 			Toast.makeText(TodoActivity.this, "Todo item edited", Toast.LENGTH_SHORT).show();
 		}
 	}
@@ -124,11 +127,12 @@ public class TodoActivity extends Activity implements
 	private void initListAdapter() {
     	// Fields from the database (projection).
         // Must include the _id column for the adapter to work.
-        String[] colNames = new String[] { SimpleTodoTable.COLUMN_ITEM };
-        int[] to = new int[] {android.R.id.text1};
-    	itemsCursorAdapter = new SimpleCursorAdapter(this,
-    			android.R.layout.simple_list_item_1, null,
-    			colNames, to, /** FLAG_AUTO_REQUERY */ 0);
+        //String[] colNames = new String[] { SimpleTodoTable.COLUMN_STATUS, SimpleTodoTable.COLUMN_ITEM };
+        //int[] to = new int[] {android.R.id.text1};
+    	//itemsCursorAdapter = new SimpleCursorAdapter(this,
+    			//android.R.layout.simple_list_item_1, null,
+    			//colNames, to, /** FLAG_AUTO_REQUERY */ 0);
+        itemsCursorAdapter = new SimpleTodoCursorAdapter(this, null, /** FLAG_AUTO_REQUERY */ 0);
     	lvItems.setAdapter(itemsCursorAdapter);
     }
 
@@ -141,22 +145,23 @@ public class TodoActivity extends Activity implements
 					int position, long id) {
 				Uri uri = Uri.parse(SimpleTodoContentProvider.CONTENT_URI + "/" + id);
 				getContentResolver().delete(uri, null, null);
+				Toast.makeText(TodoActivity.this, "Todo item deleted", Toast.LENGTH_SHORT).show();
 				return false;
 			}
 		});
 		
 		// Edit item on click of an item in the list.
-		lvItems.setOnItemClickListener(new OnItemClickListener() {
+		/*lvItems.setOnItemClickListener(new OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> adapter, View item,
 					int position, long id) {
 				// Load the edit item activity with the text of the item.
 				Intent i = new Intent(TodoActivity.this, EditItemActivity.class);
-				i.putExtra("itemText", ((TextView)item).getText());
-				i.putExtra("itemId", (int)id);
+				i.putExtra("itemText", ((TextView) item).getText());
+				i.putExtra("itemId", (Integer) id);
 				startActivityForResult(i, REQUEST_CODE);
 			}
-		});
+		});*/
 	}
 
     // Delete all items in the todo list.

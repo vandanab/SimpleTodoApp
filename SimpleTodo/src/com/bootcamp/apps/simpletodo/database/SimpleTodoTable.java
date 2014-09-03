@@ -8,12 +8,14 @@ public class SimpleTodoTable {
 	// constants
 	public static final String TABLE_NAME = "todo";
 	public static final String COLUMN_ID = "_id";
+	public static final String COLUMN_STATUS = "status";
 	public static final String COLUMN_ITEM = "item";
 
 	private static final String CREATE_TABLE = "create table "
 			+ TABLE_NAME
 			+ "("
 			+ COLUMN_ID + " integer primary key autoincrement, "
+			+ COLUMN_STATUS + " integer, "
 			+ COLUMN_ITEM + " text not null "
 			+ ")";
 

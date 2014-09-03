@@ -16,6 +16,7 @@ Completed user stories:
  * [x] Optional: User is notified after editing an item.
  * [x] Optional: User can clear all items in the todo list by clicking the delete icon on the action bar of todo activity.
  * [x] Optional: The items list is persisted in the sqlite database and accessed using a custom content provider.
+ * [x] Optional: The list items are checkable and implemented using a custom ResourceCursorAdaptor.
  
 Notes:
 
@@ -26,5 +27,9 @@ The master branch has the basic app and the sqliteandclear branch has the option
 The following gif walks through the completed user stories:
 
 ![Video Walkthrough](simple_todo_demo.gif)
+
+New demo with checkable list items:
+![Video Walkthrough](simple_todo_demo_2.gif)
+
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
